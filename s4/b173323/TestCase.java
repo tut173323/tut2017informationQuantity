@@ -164,8 +164,23 @@ public class TestCase {
         try {
             InformationEstimatorInterface myObject;
             double value;
+            System.out.println("checking s4.b173323.InformationEstimator(the true value is infinite)");
+            myObject = new s4.b173323.InformationEstimator();
+            myObject.setTarget("0".getBytes());
+            value = myObject.estimation();
+            System.out.println(">0 "+value);
+            if(Double.MAX_VALUE == value) System.out.println("OK"); else System.out.println("WRONG");
+        }
+        catch(Exception e) {
+            System.out.println("Exception occurred: STOP");
+        }
+        
+        try {
+            InformationEstimatorInterface myObject;
+            double value;
             System.out.println("checking s4.b173323.InformationEstimator(Space is not set)");
             myObject = new s4.b173323.InformationEstimator();
+            myObject.setSpace(128);
             myObject.setTarget("0".getBytes());
             value = myObject.estimation();
             System.out.println(">0 "+value);
