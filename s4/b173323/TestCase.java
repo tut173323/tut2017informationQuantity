@@ -56,7 +56,7 @@ public class TestCase {
             myObject.setSpace("121212".getBytes());
             myObject.setTarget("21".getBytes());
             freq = myObject.frequency();
-            System.out.print("\"21 \" in \"121212\" appears "+freq+" times. ");
+            System.out.print("\"21\" in \"121212\" appears "+freq+" times. ");
             if(2 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         }
         catch(Exception e) {
@@ -166,7 +166,8 @@ public class TestCase {
             double value;
             System.out.println("checking s4.b173323.InformationEstimator(the true value is infinite)");
             myObject = new s4.b173323.InformationEstimator();
-            myObject.setTarget("0".getBytes());
+            myObject.setSpace("".getBytes());
+            myObject.setTarget("waeojfao;i".getBytes());
             value = myObject.estimation();
             System.out.println(">0 "+value);
             if(Double.MAX_VALUE == value) System.out.println("OK"); else System.out.println("WRONG");
@@ -180,7 +181,6 @@ public class TestCase {
             double value;
             System.out.println("checking s4.b173323.InformationEstimator(Space is not set)");
             myObject = new s4.b173323.InformationEstimator();
-            myObject.setSpace(128);
             myObject.setTarget("0".getBytes());
             value = myObject.estimation();
             System.out.println(">0 "+value);

@@ -21,18 +21,43 @@ public class Frequencer implements FrequencerInterface{
     byte [] mySpace;
     public void setTarget(byte [] target) { myTarget = target;}
     public void setSpace(byte []space) { mySpace = space; }
+    
     public int frequency() {
-	int targetLength = myTarget.length;
-	int spaceLength = mySpace.length;
-	int count = 0;
-	for(int start = 0; start<spaceLength; start++) { // Is it OK?
-	    boolean abort = false;
-	    for(int i = 0; i<targetLength; i++) {
-            if(myTarget[i] != mySpace[start+i]) { abort = true; break; }
-	    }
-	    if(abort == false) { count++; }
-	}
-	return count;
+        
+        /*追加開始 -target, spaceの長さに関して安全に宣言できるか、try-catchで確認
+                   また、target, spaceの値が0なら、仕様通りの値を返す*/
+        try {
+            int targetLength = myTarget.length;
+            if(targetLength == 0) {throw new Exception();}
+        } catch (Exception e){
+            System.out.println("Exception occured: Target is not set or Target Length is zero");
+            return -1;
+        }
+        try {
+            int spaceLength = mySpace.length;
+            if(spaceLength == 0) {throw new Exception();}
+        } catch (Exception e) {
+            System.out.println("Exception occured: Space is not set or Space Length is zero");
+            return 0;
+        }
+        //追加終わり
+        
+        int targetLength = myTarget.length;
+        int spaceLength = mySpace.length;
+        
+        
+        int count = 0;
+        for(int start = 0; start<spaceLength; start++) { // Is it OK?
+            boolean abort = false;
+            for(int i = 0; i<targetLength; i++) {
+                //修正開始　-if文追加、元if文をelse ifに変更してstart+iでspaceLength超過を予防
+            if(start+i >= spaceLength - 1) { abort = true; break; }
+            else if(myTarget[i] != mySpace[start+i]) { abort = true; break; }
+            //修正終わり
+            }
+            if(abort == false) { count++; }
+        }
+        return count;
     }
 
     // I know that here is a potential problem in the declaration.
