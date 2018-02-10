@@ -68,9 +68,48 @@ public class InformationEstimator implements InformationEstimatorInterface{
             System.out.println("Exception occured: Space is not set or Space Length is zero");
             return value;
         }
+        
         //追加終わり
+        myFrequencer.setTarget(myTarget);
         
+        double [] prefixEstimation = new double[myTarget.length+1];
         
+        prefixEstimation[0] = (double) 0.0; //IE("") = 0.0;
+        
+        for(int n=1;n<=myTarget.length;n++) {
+            // target = "abcdef..", n = 4 for example, subByte(0, 4) = "abcd",
+            // IE("abcd") = min( IE("")+iq(#"abcd"),
+            //                   IE("a") + iq(#"bcd"),
+            //                   IE("ab")+iq(#"cd"),
+            //                   IE("abc")+iq(#"d") )
+            // prefixEstimation[0] = IE(""), subByte(0,4) = "abcd",
+            // prefixEstimation[1] = IE("a");  subByte(1,4)= "bcd",
+            // prefixEstimation[2] = IE("ab");  subByte(2,4)= "cd",
+            // prefixEstimation[3] = IE("abc");  subByte(3,4)= "d",
+            // prefixEstimation[4] = IE("abcd");
+            //
+            value = Double.MAX_VALUE;
+            
+            for(int start=n-1;start>=0;start--) {
+                int freq = myFrequencer.subByteFrequency(start, n);
+                
+                if(freq != 0) {
+                    // update "value" if it is needed.
+                    double value1 = prefixEstimation[start]+iq(freq);
+                    if(value>value1) value = value1;
+                } else {
+                    // here freq ==0. This means iq(freq) is infinite.
+                    // freq is monotonically descreasing in this loop.
+                    // Now the current "value" is the minimum.
+                    break;
+                }
+            }
+            prefixEstimation[n]=value;
+        }
+        
+        return prefixEstimation[myTarget.length];
+
+        /*
         for(int p=0; p<np; p++) { // There are 2^(n-1) kinds of partitions.
             // binary representation of p forms partition.
             // for partition {"ab" "cde" "fg"}
@@ -106,7 +145,7 @@ public class InformationEstimator implements InformationEstimatorInterface{
             // Get the minimal value in "value"
             if(value1 < value) value = value1;
         }
-        return value;
+        return value;*/
     }
 
     public static void main(String[] args) {
@@ -126,6 +165,9 @@ public class InformationEstimator implements InformationEstimatorInterface{
         myObject.setTarget("00".getBytes());
         value = myObject.estimation();
         System.out.println(">00 "+value);
+        myObject.setTarget("3210321001230123".getBytes());
+        value = myObject.estimation();
+        System.out.println(">3210321001230123 "+value);
     }
 }
 				  
