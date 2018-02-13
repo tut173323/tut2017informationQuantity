@@ -121,6 +121,21 @@ public class TestCase {
             System.out.println("Exception occurred: STOP");
         }
         
+        try {
+            FrequencerInterface  myObject;
+            int freq;
+            System.out.println("checking s4.b173323.Frequencer");
+            myObject = new s4.b173323.Frequencer();
+            myObject.setSpace("Hi Ho Hi Ho".getBytes());
+            myObject.setTarget("Ho ".getBytes());
+            freq = myObject.frequency();
+            System.out.print("\"Hi Ho \" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
+            if(1 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+        }
+        catch(Exception e) {
+            System.out.println("Exception occurred: STOP");
+        }
+        
         
         try {
             InformationEstimatorInterface myObject;
