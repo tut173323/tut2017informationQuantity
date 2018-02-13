@@ -54,7 +54,7 @@ public class Frequencer implements FrequencerInterface{
         QuickSort(suffixArray, 0, mySpace.length - 1);
         
         //確認用
-        printSuffixArray();
+        //printSuffixArray();
         
     }
     
@@ -134,7 +134,7 @@ public class Frequencer implements FrequencerInterface{
         int last1 = subByteEndIndex(start, end);
         
         //確認用
-        System.out.printf("first = %d last1 = %d\n", first, last1);
+        //System.out.printf("first = %d last1 = %d\n", first, last1);
         
         return last1 - first;
     }
